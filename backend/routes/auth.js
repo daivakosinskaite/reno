@@ -4,6 +4,36 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const router = express.Router();
 
+// Registracijos maršrutas
+router.post('/register', async (req, res) => {
+  const { name, email, password } = req.body;
+  try {
+    // Patikriname, ar vartotojas jau egzistuoja
+    let user = await User.findOne({ email });
+    if (user) {
+      return res.status(400).json({ msg: 'User already exists' });
+    }
+
+    // Sukuriame naują vartotoją
+    user = new User({
+      name,
+      email,
+      password
+    });
+
+    // Užšifruojame slaptažodį
+    const salt = await bcrypt.genSalt(10);
+    user.password = await bcrypt.hash(password, salt);
+
+    // Išsaugome vartotoją duomenų bazėje
+    await user.save();
+    res.status(201).json({ msg: 'User created successfully' });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send('Server error');
+  }
+});
+
 // Prisijungimo maršrutas
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
