@@ -1,0 +1,38 @@
+
+
+
+Backend paketai
+
+npm install express
+
+npm install mongoose
+
+npm install jsonwebtoken
+
+npm install bcryptjs
+
+npm install dotenv
+
+npm install cors
+
+
+Frontend paketai
+
+
+npm install react
+
+npm install react-dom
+
+npm install react-router-dom
+
+npm install node-sass
+
+npm install axios
+
+cd backend
+node server.js
+netstat -ano | findstr :5000
+taskkill /PID 20392 /F
+
+cd frontent
+npm start
